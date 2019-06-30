@@ -6,10 +6,10 @@ class Route
   attr_accessor :stations, :route_name
 
   def initialize(first_station, final_station, route_name)
+    validate!
     @stations = [first_station, final_station]
     @route_name = route_name
     register_instance
-    validate!
   end
     
   def station_add(station)

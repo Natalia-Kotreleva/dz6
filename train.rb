@@ -16,9 +16,9 @@ class Train
     @wagons = []
     @name_company = "company"
     @number = number
+    validate!
     register_instance
     @@trains << self
-    validate!
   end
   
   TRAIN_NUMBER_FORMAT = /^[a-z0-9]{3}-*[a-z0-9]{2}$/i
@@ -69,21 +69,8 @@ class Train
   protected
   
   def validate!
-    begin
-      raise if name_train.length < 3
-    rescue 
-      puts "Length train name < 3, puts name"
-      name_train = gets.chomp
-    retry if name_train.length < 3
-    end
-
-    begin
-      raise if number !~ TRAIN_NUMBER_FORMAT
-    rescue 
-      puts "Invalid format train number, puts number"
-      number = gets.chomp
-    retry if number !~ TRAIN_NUMBER_FORMAT
-    end
+    raise "Length train name < 3" if name_train.length < 3
+    raise "Invalid format train number" if number !~ TRAIN_NUMBER_FORMAT
   end
 end
 

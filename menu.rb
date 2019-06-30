@@ -9,6 +9,8 @@ load 'route.rb'
 @created_trains = []
 @created_stations = []
 @created_routes = []
+ 
+TRAIN_NUMBER_FORMAT = /^[a-z0-9]{3}-*[a-z0-9]{2}$/i
 
 def print_function(array, name)
   array.each { |element|
@@ -42,9 +44,26 @@ def create_train
     case train_type
       when 1
         puts "Введите имя поезда"
-        passenger_train = gets.chomp
+        passenger_train = gets.chomp    
+  
+        begin
+          raise if passenger_train.length < 3
+        rescue 
+          puts "Length train name < 3, puts name"
+          passenger_train = gets.chomp
+        retry if passenger_train.length < 3
+        end
+
         puts "Введите номер поезда"
         passenger_train_number = gets.chomp
+        begin
+          raise if passenger_train_number !~ TRAIN_NUMBER_FORMAT
+        rescue 
+          puts "Invalid format train number, puts number"
+          passenger_train_number = gets.chomp
+        retry if passenger_train_number !~ TRAIN_NUMBER_FORMAT
+        end
+
         passenger_train = PassengerTrain.new("#{passenger_train}", "#{passenger_train_number}")
         @created_trains.push(passenger_train)
         puts "Создан #{passenger_train}"
@@ -52,8 +71,24 @@ def create_train
       when 2
         puts "Введите имя поезда"
         cargo_train = gets.chomp
+        begin
+          raise if cargo_train.length < 3
+        rescue 
+          puts "Length train name < 3, puts name"
+          cargo_train = gets.chomp
+        retry if cargo_train.length < 3
+        end
+
         puts "Введите номер поезда"
         cargo_train_number = gets.chomp
+        begin
+          raise if cargo_train_number !~ TRAIN_NUMBER_FORMAT
+        rescue 
+          puts "Invalid format train number, puts number"
+          cargo_train_number = gets.chomp
+        retry if cargo_train_number !~ TRAIN_NUMBER_FORMAT
+        end
+
         cargo_train = CargoTrain.new("#{cargo_train}", "#{cargo_train_number}")
         @created_trains.push(cargo_train)
         puts "Создан #{cargo_train}"
